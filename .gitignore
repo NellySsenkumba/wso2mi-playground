@@ -1,0 +1,32 @@
+# Ignore IntelliJ IDEA project files
+.idea/
+*.iml
+
+# Ignore build directories
+target/
+build/
+
+# Ignore logs
+*.log
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore Maven specific files
+.mvn/
+.settings/
+*.class
+*.jar
+*.war
+*.ear
+
+# Ignore WSO2 Micro Integrator specific files
+repository/deployment/server/
+repository/logs/
+repository/resources/security/
+repository/tmp/
