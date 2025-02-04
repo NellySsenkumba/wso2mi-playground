@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="playground-gender" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+ <property name="gender" scope="default" type="STRING" expression="json-eval($.gender)"/>
+            <property name="IsChecked" scope="default" type="BOOLEAN" value="true"/>
+            <property name="modifed_gender" scope="default" type="STRING" expression="concat(
+  substring('M', 1 div (lower-case($ctx:gender) = 'male' or lower-case($ctx:gender) = 'm')), 
+  substring('F', 1 div (lower-case($ctx:gender) = 'female' or lower-case($ctx:gender) = 'f'))
+)"/>
+      <log category="INFO" level="custom" separator="\n">
+        <property name="modified gender" expression="$ctx:modifed_gender"/>
+            </log>
+      <script language="js"><![CDATA[var gender = mc.getProperty('gender');
+var response_gender;
+if (gender.toUpperCase() === 'MALE') {
+  response_gender = 'M';
+mc.setProperty("response_gender", response_gender.toString())
+} else if (gender.toUpperCase() === 'FEMALE') {
+  response_gender = 'F';
+mc.setProperty("response_gender", response_gender.toString())
+} else if (gender.toUpperCase() === 'F' || gender.toUpperCase() === 'M') {
+  response_gender = gender;
+mc.setProperty("response_gender", response_gender.toString())
+}
+]]></script>
+      <payloadFactory media-type="json" template-type="default">
+        <format>{"message":"$1"}</format>
+        <args>
+          <arg expression="get-property('response_gender')" evaluator="xml"/>
+                </args>
+            </payloadFactory>
+      <respond/>
+</sequence>

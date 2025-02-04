@@ -2,6 +2,9 @@
 .idea/
 *.iml
 
+# Ignore Visual Studio Code files
+.vscode/
+
 # Ignore build directories
 target/
 build/

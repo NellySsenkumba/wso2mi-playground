@@ -1,28 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <api context="/playground" name="playground" xmlns="http://ws.apache.org/ns/synapse">
-    <resource methods="POST" uri-template="/">
+    <resource methods="POST" uri-template="/gender">
         <inSequence>
-            <property name="gender" scope="default" type="STRING" expression="json-eval($.gender)"/>
-            <script language="js"><![CDATA[var gender = mc.getProperty('gender');
-var response_gender;
-if (gender.toUpperCase() === 'MALE') {
-  response_gender = 'M';
-mc.setProperty("response_gender", response_gender)
-} else if (gender.toUpperCase() === 'FEMALE') {
-  response_gender = 'F';
-mc.setProperty("response_gender", response_gender)
-} else if (gender.toUpperCase() === 'F' || gender.toUpperCase() === 'M') {
-  response_gender = gender;
-mc.setProperty("response_gender", response_gender)
-}
-]]></script>
-            <payloadFactory media-type="json" template-type="default">
-                <format>{"message":"$1"}</format>
-                <args>
-                    <arg expression="$ctx:response_gender" evaluator="xml"/>
-                </args>
-            </payloadFactory>
-            <respond/>
+            <sequence key="playground-gender"/>
+        </inSequence>
+        <faultSequence>
+        </faultSequence>
+    </resource>
+    <resource methods="POST" uri-template="/inner-xml">
+        <inSequence>
+            <sequence key="playground-inner-xml"/>
         </inSequence>
         <faultSequence>
         </faultSequence>

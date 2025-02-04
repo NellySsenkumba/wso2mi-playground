@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="playground-inner-xml" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <property name="inner" scope="default" type="OM" expression="//fjs1:pain002[1]" xmlns:fjs1="http://soprabanking.com/amplitude"/>
+    <property name="TxSts" scope="default" type="STRING" expression="$ctx:inner//xxxx:TxSts" xmlns:xxxx="urn:iso:std:iso:20022:tech:xsd:pain.002.001.03DB"/>
+    <log category="INFO" level="custom" separator="\n">
+        <property name="TxSts" expression="$ctx:TxSts"/>
+        <property name="Inner" expression="$ctx:inner"/>
+        <property name="One line" expression="//fjs1:pain002[1]//iso:TxSts" xmlns:iso="urn:iso:std:iso:20022:tech:xsd:pain.002.001.03DB" xmlns:fjs1="http://soprabanking.com/amplitude"/>
+    </log>
+    <payloadFactory media-type="xml" template-type="default" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:doc="urn:iso:std:iso:20022:tech:xsd:pain.002.001.03DB" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <format>
+            <soapenv:Envelope>
+                <soapenv:Body xmlns="urn:iso:std:iso:20022:tech:xsd:pain.002.001.03DB">
+                    <Response>
+                        <ResponseCode>000</ResponseCode>
+                        <ResponseMessage>
+                            <TxSts>$1</TxSts>
+                            <Tp>$2</Tp>
+                        </ResponseMessage>
+                    </Response>
+                </soapenv:Body>
+            </soapenv:Envelope>
+        </format>
+        <args>
+            <arg expression="$ctx:TxSts" evaluator="xml"/>
+            <arg expression="$ctx:inner//doc:OrdrPrties[1]/doc:Tp[1]/text()[1]" evaluator="xml"/>
+        </args>
+    </payloadFactory>
+    <respond/>
+</sequence>
