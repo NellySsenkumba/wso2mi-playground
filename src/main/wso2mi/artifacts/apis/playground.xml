@@ -5,6 +5,7 @@
             <sequence key="playground-gender"/>
         </inSequence>
         <faultSequence>
+            <sequence key="playgroundFaultSequence"/>
         </faultSequence>
     </resource>
     <resource methods="POST" uri-template="/inner-xml">
@@ -12,6 +13,39 @@
             <sequence key="playground-inner-xml"/>
         </inSequence>
         <faultSequence>
+            <sequence key="playgroundFaultSequence"/>
+        </faultSequence>
+    </resource>
+    <resource methods="POST" uri-template="/data-mapper">
+        <inSequence>
+            <sequence key="playgroundDataMapper"/>
+        </inSequence>
+        <faultSequence>
+            <sequence key="playgroundFaultSequence"/>
+        </faultSequence>
+    </resource>
+    <resource methods="GET" uri-template="/ip">
+        <inSequence>
+            <sequence key="playground-ip"/>
+        </inSequence>
+        <faultSequence>
+            <sequence key="playgroundFaultSequence"/>
+        </faultSequence>
+    </resource>
+    <resource methods="POST" uri-template="/ura">
+        <inSequence>
+            <sequence key="playground-ura"/>
+        </inSequence>
+        <faultSequence>
+            <sequence key="playgroundFaultSequence"/>
+        </faultSequence>
+    </resource>
+    <resource methods="GET" uri-template="/cbo">
+        <inSequence>
+            <sequence key="playground-cbo"/>
+        </inSequence>
+        <faultSequence>
+            <sequence key="playgroundFaultSequence"/>
         </faultSequence>
     </resource>
 </api>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="playgroundFaultSequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log level="custom">
+        <property name="ERROR_CODE" expression="get-property('ERROR_CODE')"/>
+        <property name="ERROR_MESSAGE" expression="get-property('ERROR_MESSAGE')"/>
+        <property name="ERROR_DETAIL" expression="get-property('ERROR_DETAIL')"/>
+        <property name="ERROR_EXCEPTION" expression="get-property('ERROR_EXCEPTION')"/>
+    </log>
+    <property name="HTTP_SC" scope="axis2" type="STRING" value="500"/>
+    <payloadFactory media-type="json" template-type="default">
+        <format>{"response_code":"500","response_message":"Invalid Flow", "error_code":"$1", "error_message":"$2", "error_exception":"$3", "error":"$4", }</format>
+        <args>
+            <arg expression="get-property('ERROR_CODE')" evaluator="xml"/>
+            <arg expression="get-property('ERROR_MESSAGE')" evaluator="xml"/>
+            <arg expression="get-property('ERROR_EXCEPTION')" evaluator="xml"/>
+            <arg expression="get-property('ERROR')" evaluator="xml"/>
+        </args>
+    </payloadFactory>
+    <respond/>
+</sequence>

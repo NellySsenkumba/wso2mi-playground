@@ -1,0 +1,83 @@
+<data name="c2bApiUsers" serviceNamespace="" serviceGroup="" transports="http https">
+  <resource method="GET" path="/c2bAPIConfigs">
+    <description/>
+    <call-query href="Queryc2bAPIConfigs">
+      <with-param name="identifier" query-param="identifier"/>
+      <with-param name="pass" query-param="pass"/>
+    </call-query>
+  </resource>
+  <resource method="DELETE" path="/deletec2bAPIConfig">
+    <description/>
+    <call-query href="Deletec2bAPIConfigs">
+      <with-param name="identifier" query-param="identifier"/>
+      <with-param name="pass" query-param="pass"/>
+    </call-query>
+  </resource>
+  <resource path="/insertc2bAPIConfigs" method="POST">
+    <description/>
+    <call-query href="Insertc2bAPIConfigs">
+      <with-param name="identifier" query-param="identifier"/>
+      <with-param name="pass" query-param="pass"/>
+      <with-param name="username" query-param="username"/>
+      <with-param name="password" query-param="password"/>
+      <with-param name="company" query-param="company"/>
+    </call-query>
+  </resource>
+  <resource path="/updatec2bAPIConfigs" method="PUT">
+    <description/>
+    <call-query href="Updatec2bAPIConfigs">
+      <with-param name="pass" query-param="pass"/>
+      <with-param name="username" query-param="username"/>
+      <with-param name="password" query-param="password"/>
+      <with-param name="company" query-param="company"/>
+      <with-param name="identifier" query-param="identifier"/>
+    </call-query>
+  </resource>
+  <resource path="/createc2bAPIConfigsTable" method="GET">
+    <description/>
+    <call-query href="Createc2bAPIConfigsTable">
+    </call-query>
+  </resource>
+  <query useConfig="c2bApiUsersDataSource" id="Createc2bAPIConfigsTable">
+    <sql>CREATE TABLE C2B_API_CONFIGS ( identifier VARCHAR(20) PRIMARY KEY, pass VARCHAR(20), username VARCHAR(50), password VARCHAR(50), company VARCHAR(50))</sql>
+  </query>
+  <query id="Queryc2bAPIConfigs" useConfig="c2bApiUsersDataSource">
+    <sql>select username, password, company from C2B_API_CONFIGS where identifier = ? and pass = ?</sql>
+    <param type="IN" name="identifier" optional="false" sqlType="STRING" paramType="SCALAR"/>
+    <param type="IN" name="pass" optional="false" sqlType="STRING" paramType="SCALAR"/>
+    <result rowName="Configs" element="Getc2bAPIConfigs">
+      <element name="identifier" requiredRoles="" xsdType="string" column="identifier"/>
+      <element name="pass" requiredRoles="" xsdType="string" column="pass"/>
+      <element name="username" requiredRoles="" xsdType="string" column="username"/>
+      <element name="password" requiredRoles="" xsdType="string" column="password"/>
+      <element name="company" requiredRoles="" xsdType="string" column="company"/>
+    </result>
+  </query>
+  <query useConfig="c2bApiUsersDataSource" id="Insertc2bAPIConfigs">
+    <sql>INSERT INTO C2B_API_CONFIGS (identifier, pass, username, password, company) VALUES (?, ?, ?, ?, ?)</sql>
+    <param type="IN" name="identifier" paramType="SCALAR" sqlType="STRING" optional="false"/>
+    <param type="IN" name="pass" paramType="SCALAR" sqlType="STRING" optional="false"/>
+    <param type="IN" name="username" paramType="SCALAR" sqlType="STRING" optional="false"/>
+    <param type="IN" name="password" paramType="SCALAR" sqlType="STRING" optional="false"/>
+    <param type="IN" name="company" paramType="SCALAR" sqlType="STRING" optional="false"/>
+  </query>
+  <query useConfig="c2bApiUsersDataSource" id="Updatec2bAPIConfigs">
+    <sql>UPDATE C2B_API_CONFIGS SET pass=?, username=?, password=?, company=? WHERE identifier=?</sql>
+    <param type="IN" name="pass" paramType="SCALAR" sqlType="STRING" optional="false" ordinal="1"/>
+    <param type="IN" name="username" paramType="SCALAR" sqlType="STRING" optional="false" ordinal="2"/>
+    <param type="IN" name="password" paramType="SCALAR" sqlType="STRING" optional="false" ordinal="3"/>
+    <param type="IN" name="company" paramType="SCALAR" sqlType="STRING" optional="false" ordinal="4"/>
+    <param type="IN" name="identifier" paramType="SCALAR" sqlType="STRING" optional="false" ordinal="5"/>
+  </query>
+  <query useConfig="c2bApiUsersDataSource" id="Deletec2bAPIConfigs">
+    <sql>DELETE FROM C2B_API_CONFIGS WHERE identifier=? AND pass=?</sql>
+    <param type="IN" name="identifier" paramType="SCALAR" sqlType="STRING" optional="false" ordinal="1"/>
+    <param type="IN" name="pass" paramType="SCALAR" sqlType="STRING" optional="false" ordinal="2"/>
+  </query>
+  <config id="c2bApiUsersDataSource">
+    <property name="driverClassName">$FILE:cbodbdriver</property>
+    <property name="url">$FILE:cbodburl</property>
+    <property name="username">$FILE:cbodbuser</property>
+    <property name="password">$FILE:cbodbpass</property>
+  </config>
+</data>

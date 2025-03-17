@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="playground-ip" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <property name="clientIP" expression="get-property('REMOTE_ADDR')"/>
+    <log level="full"/>
+    <log level="custom" separator="\n">
+        <property name="Client IP remote addr" expression="get-property('clientIP')"/>
+    </log>
+    <property name="clientIP" expression="get-property('transport', 'X-Forwarded-For')"/>
+    <log level="full" separator="\n">
+        <property name="Client IP x-forwarded" expression="get-property('clientIP')"/>
+    </log>
+    <log level="full" separator="\n">
+        <property name="TRANSPORT_HEADERS " expression="get-property('axis2','TRANSPORT_HEADERS')"/>
+    </log>
+    <property expression="get-property('transport', 'X-Forwarded-For')" name="clientIps" scope="default" type="STRING"/>
+    <filter xpath="boolean(get-property('clientIps'))">
+        <then>
+            <script description="Extract client ip" language="js"><![CDATA[var clientIps = mc.getProperty('clientIps'); // Fetch clientips
+        var clientIp = clientIps.split(',')[0]; // Split the string at the first comma and get the first part
+        mc.setProperty('clientIp', String(clientIp)); // Set the clientIp property]]></script>
+            <log level="full" separator="\n">
+                <property name="Client IP script" expression="get-property('clientIP')"/>
+            </log>
+        </then>
+        <else/>
+    </filter>
+    <payloadFactory media-type="json">
+        <format>{"clientIP":"$1"}</format>
+        <args>
+            <arg evaluator="xml" expression="$ctx:clientIP"/>
+        </args>
+    </payloadFactory>
+    <class name="com.playgrounds.TestMed">
+    </class>
+    <respond/>
+</sequence>

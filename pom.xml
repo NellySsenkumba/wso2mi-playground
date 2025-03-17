@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.microintegrator.projects</groupId>
   <artifactId>playground</artifactId>
-  <version>1.0.0</version>
-  <packaging>pom</packaging>
+  <version>3.0.0</version>
+  <packaging>jar</packaging>
   <name>playground</name>
   <description>playground for wso2 micro integrator</description>
   <repositories>
@@ -72,7 +72,6 @@
       </activation>
       <build>
         <plugins>
-          <!-- Download dependency jars to the deployment/libs folder -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
@@ -86,7 +85,6 @@
                 <configuration>
                   <outputDirectory>${basedir}/deployment/libs</outputDirectory>
                   <excludeTransitive>true</excludeTransitive>
-                  <!-- exclude dependencies which already available in MI -->
                   <excludeGroupIds>org.apache.synapse,org.apache.axis2</excludeGroupIds>
                 </configuration>
               </execution>
@@ -95,6 +93,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
             <configuration>
               <source>17</source>
               <target>17</target>
@@ -103,15 +102,15 @@
           <plugin>
             <groupId>org.wso2.maven</groupId>
             <artifactId>vscode-car-plugin</artifactId>
-            <version>5.2.75</version>
+            <version>5.2.100</version>
             <extensions>true</extensions>
             <executions>
               <execution>
-                <phase>compile</phase>
+                <phase>package</phase>
                 <goals>
                   <goal>car</goal>
                 </goals>
-                <configuration/>
+                <configuration></configuration>
               </execution>
             </executions>
           </plugin>
@@ -122,7 +121,7 @@
             <executions>
               <execution>
                 <id>install-car</id>
-                <phase>compile</phase>
+                <phase>package</phase>
                 <goals>
                   <goal>install-file</goal>
                 </goals>
@@ -132,8 +131,6 @@
                   <groupId>${project.groupId}</groupId>
                   <version>${project.version}</version>
                   <file>${project.build.directory}/${project.artifactId}_${project.version}.car</file>
-                  <!-- Use the following configuration when archiveLocation is configured -->
-                  <!-- <file>${archiveLocation}/${project.artifactId}_${project.version}.car</file> -->
                 </configuration>
               </execution>
             </executions>
@@ -151,7 +148,7 @@
     </profile>
     <profile>
       <id>test</id>
-      <build/>
+      <build></build>
       <properties>
         <server.type>${testServerType}</server.type>
         <server.host>${testServerHost}</server.host>
@@ -163,7 +160,6 @@
       <id>docker</id>
       <build>
         <plugins>
-          <!-- Compile and build the class mediator jars -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
@@ -194,11 +190,10 @@
               </execution>
             </executions>
           </plugin>
-          <!-- Build the Carbon Application -->
           <plugin>
             <groupId>org.wso2.maven</groupId>
             <artifactId>vscode-car-plugin</artifactId>
-            <version>5.2.75</version>
+            <version>5.2.100</version>
             <extensions>true</extensions>
             <executions>
               <execution>
@@ -210,7 +205,6 @@
               </execution>
             </executions>
           </plugin>
-          <!-- Download dependency jars to the deployment/libs folder -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
@@ -224,13 +218,11 @@
                 <configuration>
                   <outputDirectory>${basedir}/deployment/libs</outputDirectory>
                   <excludeTransitive>true</excludeTransitive>
-                  <!-- exclude dependencies which already available in MI -->
                   <excludeGroupIds>org.apache.synapse,org.apache.axis2</excludeGroupIds>
                 </configuration>
               </execution>
             </executions>
           </plugin>
-          <!-- Run config mapper to transform configuration files -->
           <plugin>
             <groupId>org.wso2.maven</groupId>
             <artifactId>mi-container-config-mapper</artifactId>
@@ -280,7 +272,6 @@
             </executions>
             <configuration/>
           </plugin>
-          <!-- Build docker image -->
           <plugin>
             <groupId>io.fabric8</groupId>
             <artifactId>docker-maven-plugin</artifactId>
@@ -354,15 +345,14 @@
             <testServerDownloadLink>${server.download.link}</testServerDownloadLink>
           </server>
           <testCasesFilePath>${project.basedir}/src/test/wso2mi/${testFile}</testCasesFilePath>
-          <mavenTestSkip>${maven.test.skip}</mavenTestSkip>
+          <mavenTestSkip>true</mavenTestSkip>
         </configuration>
       </plugin>
     </plugins>
   </build>
   <properties>
     <projectType>integration-project</projectType>
-    <uuid>81fba36d-f005-43fa-8bbf-e7611af0859a</uuid>
-    <!-- <archiveLocation>configure a custom target directory for CAPP</archiveLocation> -->
+    <uuid>7b48a4c7-433e-464b-81e2-e742fe57dc2a</uuid>
     <keystore.type>JKS</keystore.type>
     <keystore.name>wso2carbon.jks</keystore.name>
     <keystore.password>wso2carbon</keystore.password>
@@ -371,14 +361,22 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.scm.id>integration-project</project.scm.id>
-    <project.runtime.version>4.3.0</project.runtime.version>
+    <project.runtime.version>4.4.0</project.runtime.version>
     <dockerfile.base.image>wso2/wso2mi:${project.runtime.version}</dockerfile.base.image>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/jakarta.jms/jakarta.jms-api -->
+    <dependency>
+      <groupId>jakarta.jms</groupId>
+      <artifactId>jakarta.jms-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
     <dependency>
       <groupId>org.apache.synapse</groupId>
       <artifactId>synapse-core</artifactId>
-      <version>4.0.0-wso2v20</version>
+      <version>4.0.0-wso2v165</version>
     </dependency>
   </dependencies>
 </project>

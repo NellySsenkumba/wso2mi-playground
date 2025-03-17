@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="playground-ura" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log level="custom">
+        <property name="uraCertificatePath" expression="get-property('file','uraCertificatePath')"/>
+        <property name="filePath" expression="concat(get-property('carbon.home'), '/server/resources/sample.txt')"/>
+    </log>
+    <propertyGroup>
+        <property name="privateKeyFilePath" scope="default" type="STRING" value="/home/wso2carbon/wso2mi-4.3.0/repository/resources/security/semaz.pfx"/>
+        <property name="uraCertificatePath" scope="default" type="STRING" value="/home/wso2carbon/wso2mi-4.3.0/repository/resources/security/URABANK.cer"/>
+        <property name="keystorePassword" value=""/>
+        <property name="alias" value="1"/>
+        <property name="password" expression="json-eval($.password)"/>
+        <property name="dataForSigning" expression="json-eval($.dataForSigning)"/>
+    </propertyGroup>
+    <class name="com.playgrounds.URAPasswordSignature">
+        <property name="uraCertificatePath" expression="get-property('uraCertificatePath')"/>
+        <property name="privateKeyPath" expression="get-property('privateKeyFilePath')"/>
+        <property name="keystorePassword" expression="get-property('keystorePassword')"/>
+        <property name="alias" expression="get-property('alias')"/>
+        <property name="password" expression="get-property('password')"/>
+        <property name="dataForSigning" expression="get-property('dataForSigning')"/>
+    </class>
+    <payloadFactory media-type="json">
+        <format>{"Signature":"$1","EncryptedPassword":"$2"}</format>
+        <args>
+            <arg evaluator="xml" expression="$ctx:Signature"/>
+            <arg evaluator="xml" expression="$ctx:EncryptedPassword"/>
+        </args>
+    </payloadFactory>
+</sequence>

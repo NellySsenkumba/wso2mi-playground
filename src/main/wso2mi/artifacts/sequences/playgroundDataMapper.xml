@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="playgroundDataMapper" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <datamapper config="resources:datamapper/enhancedjson/enhancedjson.dmc" inputSchema="resources:datamapper/enhancedjson/enhancedjson_inputSchema.json" outputSchema="resources:datamapper/enhancedjson/enhancedjson_outputSchema.json"/>
+    <class name="com.playgrounds.SampleMediator"/>
+    <respond/>
+</sequence>

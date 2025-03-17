@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="playground-cbo" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup>
+        <property name="company" value="Test"/>
+        <property name="password" value="Test"/>
+        <property name="username" value="Test"/>
+        <property name="unlockId" value="Test"/>
+        <property name="messageId" value="Test"/>
+    </propertyGroup>
+    <!-- <arg evaluator="xml" expression="get-property('messageId')"/>
+            <arg evaluator="xml" expression="get-property('unlockId')"/> -->
+    <payloadFactory media-type="xml">
+        <format>
+            <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tws="http://temenos.com/TWSBLOCKFUND">
+                <soapenv:Header/>
+                <soapenv:Body>
+                    <tws:WSACUNLOCKAMT>
+                        <WebRequestCommon xmlns="">
+                            <!--Optional:-->
+                            <company>$1</company>
+                            <password>$2</password>
+                            <userName>$3</userName>
+                        </WebRequestCommon>
+                        <OfsFunction xmlns="">
+                            <messageId>$4</messageId>
+                        </OfsFunction>
+                        <ACLOCKEDEVENTSCTSType xmlns="">
+                            <transactionId>$5</transactionId>
+                        </ACLOCKEDEVENTSCTSType>
+                    </tws:WSACUNLOCKAMT>
+                </soapenv:Body>
+            </soapenv:Envelope>
+        </format>
+        <args>
+            <arg evaluator="xml" expression="get-property('company')"/>
+            <arg evaluator="xml" expression="base64Decode(get-property('password'), 'US-ASCII')"/>
+            <arg evaluator="xml" expression="base64Decode(get-property('username'), 'US-ASCII')"/>
+            <arg evaluator="xml" expression="get-property('messageId')"/>
+            <arg evaluator="xml" expression="get-property('unlockId')"/>
+        </args>
+    </payloadFactory>
+    <!-- <property name="messageType" scope="axis2" type="STRING" value="application/soap+xml"/>
+    <property name="ContentType" scope="axis2" type="STRING" value="application/soap+xml"/> -->
+    <!-- <property name="messageType" scope="axis2" type="STRING" value="text/xml;charset=UTF-8"/>
+    <property name="ContentType" scope="axis2" type="STRING" value="text/xml;charset=UTF-8"/> -->
+    <respond/>
+</sequence>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<artifacts>
+  <artifact name="resources_datamapper_enhancedjson_enhancedjson_dmc" groupId="com.microintegrator.projects" version="3.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+    <item>
+      <file>enhancedjson.dmc</file>
+      <path>/_system/governance/mi-resources/datamapper/enhancedjson</path>
+      <mediaType>text/plain</mediaType>
+      <properties></properties>
+    </item>
+  </artifact>
+  <artifact name="resources_datamapper_enhancedjson_enhancedjson_inputSchema_json" groupId="com.microintegrator.projects" version="3.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+    <item>
+      <file>enhancedjson_inputSchema.json</file>
+      <path>/_system/governance/mi-resources/datamapper/enhancedjson</path>
+      <mediaType>text/plain</mediaType>
+      <properties></properties>
+    </item>
+  </artifact>
+  <artifact name="resources_datamapper_enhancedjson_enhancedjson_outputSchema_json" groupId="com.microintegrator.projects" version="3.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+    <item>
+      <file>enhancedjson_outputSchema.json</file>
+      <path>/_system/governance/mi-resources/datamapper/enhancedjson</path>
+      <mediaType>text/plain</mediaType>
+      <properties/>
+    </item>
+  </artifact>
+</artifacts>

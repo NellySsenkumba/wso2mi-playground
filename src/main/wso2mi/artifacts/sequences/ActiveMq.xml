@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="ActiveMq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <payloadFactory media-type="json" template-type="default">
+        <format>{"message":"Works"}</format>
+        <args>
+        </args>
+    </payloadFactory>
+    <!-- <variable name="message" value="json-eval($.message)"/> -->
+    <!-- <log>
+        <message>${message}</message>
+    </log> -->
+    <respond/>
+</sequence>

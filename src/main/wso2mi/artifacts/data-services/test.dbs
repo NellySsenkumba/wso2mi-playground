@@ -1,0 +1,25 @@
+<data name="test" serviceNamespace="" serviceGroup="" transports="http https local" serviceStatus="active" disableStreaming="true">
+    <description/>
+    <config id="testDataSource" enableOData="false">
+        <property name="driverClassName">$FILE:cbodbdriver</property>
+        <property name="url">$FILE:cbodburl</property>
+        <property name="username">$FILE:cbodbuser</property>
+        <property name="password">$FILE:cbodbpass</property>
+    </config>
+    <query id="test1" useConfig="testDataSource">
+        <sql>select id, password, username,created_at from test where username = :username </sql>
+        <param name="username" paramType="SCALAR" sqlType="STRING" type="IN"/>
+        <result outputType="json">
+            {"Users":{"User":[{"username":"$username","id":"$id","password":"$password","created_at":"$created_at"}]}}
+        </result>
+         <result outputType="json" >
+            {"Users":{"User":[{"username":"$username","id":"$id","password":"$password"}]}}
+        </result>
+    </query>
+    <resource method="GET" path="/">
+        <description/>
+        <call-query href="test1">
+            <with-param name="username" query-param="username"/>
+        </call-query>
+    </resource>
+</data>

@@ -27,6 +27,10 @@ Thumbs.db
 *.jar
 *.war
 *.ear
+mvnw
+mvnw.cmd
+.env
+
 
 # Ignore WSO2 Micro Integrator specific files
 repository/deployment/server/
